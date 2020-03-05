@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\OrdemServico;
 use App\OrdemServicoExame;
 use App\Exame;
+use App\Paciente;
+use App\PostoColeta;
+use App\Medico;
 
 class OrdemServicoController extends Controller
 {
@@ -19,24 +22,36 @@ class OrdemServicoController extends Controller
                 $ordem_servico_exames =new OrdemServicoExame();
                 $ordem_servico_exames = $ordem_servico_exames->where('ordem_servico_id', '=', $ordem_servicos[$i]->id)->get();
                 if($ordem_servico_exames) {
+
+                    $paciente = Paciente::find($ordem_servicos[$i]->paciente_id);
+                    $posto_coleta = PostoColeta::find($ordem_servicos[$i]->posto_coleta_id);
+                    $medico = Medico::find($ordem_servicos[$i]->medico_id);
+
+                    $itens_ordem_exames = array();
                     for($j=0; $j<count($ordem_servico_exames); $j++) {
-                        $itens_ordem_exames = [
+                        $itens = [
                             "exame_id" => $ordem_servico_exames[$j]->exame_id,
                             "preco" => $ordem_servico_exames[$j]->preco,
                         ];
 
-                        $itens_ordem = [
-                            "ordem_servico_id" => $ordem_servicos[$i]->id,
-                            "id" => $ordem_servicos[$i]->id,
-                            "paciente_id" => $ordem_servicos[$i]->paciente_id,
-                            "posto_coleta_id" => $ordem_servicos[$i]->posto_coleta_id,
-                            "medico_id" => $ordem_servicos[$i]->medico_id,
-                            "convenio" => $ordem_servicos[$i]->convenio,
-                            "data" => $ordem_servicos[$i]->data,
-                            $itens_ordem_exames
-                        ];
-                        array_push($result, $itens_ordem);
+                        array_push($itens_ordem_exames, $itens);
                     }
+
+                    $itens_ordem = [
+                        "ordem_servico_id" => $ordem_servicos[$i]->id,
+                        "id" => $ordem_servicos[$i]->id,
+                        "paciente_id" => $ordem_servicos[$i]->paciente_id,
+                        "paciente_nome" => $paciente->nome,
+                        "posto_coleta_id" => $ordem_servicos[$i]->posto_coleta_id,
+                        "posto_coleta_nome" => $posto_coleta->descricao,
+                        "medico_id" => $ordem_servicos[$i]->medico_id,
+                        "medico_nome" => $medico->nome,
+                        "convenio" => $ordem_servicos[$i]->convenio,
+                        "data" => $ordem_servicos[$i]->data,
+                        $itens_ordem_exames
+                    ];
+                    array_push($result, $itens_ordem);
+                    
                 }
             }
             return json_encode($result);
