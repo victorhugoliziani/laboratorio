@@ -1,3 +1,5 @@
+<!-- @extends('js') -->
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -97,6 +99,17 @@
                 text-align: left;
                 font-weight: bold;
             }
+            #tableOrdens thead {
+                background-color: #fff;
+            }
+
+            #tableOrdens tbody tr td {
+                color: #fff !important;
+            }
+            h2.title {
+                text-align: left;
+                font-size: 30px;
+            }
         </style>
     </head>
     <body>
@@ -183,6 +196,39 @@
                     <div class="col"></div>
                 </div>
             </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col"></div>
+                        <div class="col col-sm-12 col-md-9">
+                            <h2 class="title">ÚLTIMAS ORDENS DE SERVIÇOS CADASTRADAS</h2>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col-sm-12 col-md-9">
+                        <table class="table" id="tableOrdens">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>PACIENTE</th>
+                                    <th>CONVÊNIO</th>
+                                    <th>MÉDICO</th>
+                                    <th>EXAME</th>
+                                    <th>PREÇO</th>
+                                    <th>POSTO DE COLETA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
     <script>
 
         montarOptions = (obj, cmp) => {
@@ -241,10 +287,38 @@
                 });
         }
 
+        montarLinha = (ordem_servico) => {
+            let linha = `
+                            <tr>
+                                <td>${ordem_servico.id}</td>
+                                <td>${ordem_servico.paciente_nome}</td>
+                                <td>${ordem_servico.convenio}</td>
+                                <td>${ordem_servico.medico_nome}</td>
+                                <td>${ordem_servico.exame_descricao}</td>
+                                <td>${ordem_servico.preco}</td>
+                                <td>${ordem_servico.posto_coleta_descricao}</td>
+                            </tr>
+                        `;
+            return linha;
+        }
+
+        todasOrdensServicos = () => {
+            axios.get('/api/ordem_servicos')
+                .then((response) => {
+                    if(response.data) {
+                        for(let i=0; i<response.data.length; i++) {
+                            let linha = montarLinha(response.data[i]);
+                            $("#tableOrdens > tbody").append(linha);
+                        }
+                    }
+                });
+        }
+
         todosMedicos();
         todosPacientes();
         todosPostoColetas();
         todosExames();
+        todasOrdensServicos();
 
         validateForm = (form) => {
             if(form) {
@@ -283,6 +357,8 @@
                         if(response.data.insert == true) {
                             alert(response.data.message);
                             $("#form-ordem-servico")[0].reset();
+                            linha = montarLinha(response.data);
+                            $("#tableOrdens > tbody").append(linha);
                         } else {
                             alert(response.data.message);
                         }
@@ -291,5 +367,7 @@
         });
         
     </script>  
+
+    <!-- @yeld('js') -->
     </body>
 </html>
