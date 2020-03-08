@@ -1,0 +1,93 @@
+html, body {
+    background-color: #1873a3;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+}
+
+.full-height {
+    height: 100vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+.title span {
+    margin-top: -20px;
+}
+
+.title img {
+    width:15%;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+
+.input-group-text {
+    width: 130px;
+}
+
+#btnCadastrar {
+    float: right;
+    background-color: #fff;
+    color: #1868a0;
+    font-size: 22px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid #e6d7d7;
+}
+
+.invalid-feedback {
+    color: #fff;
+    text-align: left;
+    font-weight: bold;
+}
+#tableOrdens thead {
+    background-color: #fff;
+}
+
+#tableOrdens tbody tr td {
+    color: #fff !important;
+}
+h2.title {
+    text-align: left;
+    font-size: 30px;
+}
