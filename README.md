@@ -1,6 +1,6 @@
 
 <h1>Instalação do ambiente</h1>
-<p>git clone <url></p>
+<p>git clone https://github.com/victorhugoliziani/laboratorio.git</p>
 <p>cd /laboratorio</p>
 <p>npm install</p>
 <p>npm run dev</p>
